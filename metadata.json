@@ -1,0 +1,6 @@
+{
+  "name": "PREVENT-MEDI",
+  "description": "Atendimento ao cliente pelo WhatsApp - PREVENT-MEDI",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
