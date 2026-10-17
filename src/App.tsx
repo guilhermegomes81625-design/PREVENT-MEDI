@@ -338,7 +338,7 @@ export default function App() {
           </div>
 
           <div className="bio-dialog-body">
-            <p className="bio-dialog-updated">Atualizada em 16 de outubro de 2026.</p>
+            <p className="bio-dialog-updated">Atualizada em 17 de outubro de 2026.</p>
 
             <h3>Responsável e contato</h3>
             <p>
@@ -350,7 +350,7 @@ export default function App() {
             <p>
               Esta página apresenta os serviços e canais de contato da PREVENT+MEDI.
               Não possui formulário invasivo, cadastro obrigatório ou ferramenta de pagamento.
-              Esta versão não instala cookies de publicidade ou ferramentas de análise indesejadas.
+              Este site utiliza o Google Tag Manager para gerenciar tags de medição. As informações coletadas dependem das tags configuradas e podem incluir dados de navegação e interações no site.
             </p>
 
             <h3>Contato pelo WhatsApp</h3>
