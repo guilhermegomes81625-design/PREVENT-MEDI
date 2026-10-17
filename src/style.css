@@ -17,14 +17,24 @@
   --bg-gradient-end: #eaf1f8;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
   background-color: var(--bg-gradient-start);
@@ -42,72 +52,87 @@ body {
   line-height: 1.5;
 }
 
+#root {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
 /* Page Wrapper */
 .bio-page-wrapper {
   width: 100%;
+  max-width: 100%;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   position: relative;
   overflow-x: hidden;
-  padding: 32px 16px 80px;
+  padding: 28px 16px 80px;
 }
 
-/* Ambient Glow Orbs */
+/* Ambient Glow Orbs - Contained with no overflow */
 .bio-glow-1 {
-  position: fixed;
-  top: -100px;
-  right: -80px;
-  width: 320px;
-  height: 320px;
+  position: absolute;
+  top: -60px;
+  right: 0;
+  width: 260px;
+  height: 260px;
   background: radial-gradient(circle, rgba(6, 79, 189, 0.12) 0%, rgba(6, 79, 189, 0) 70%);
   pointer-events: none;
   z-index: 0;
+  overflow: hidden;
 }
 
 .bio-glow-2 {
-  position: fixed;
-  bottom: -60px;
-  left: -80px;
-  width: 340px;
-  height: 340px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 280px;
+  height: 280px;
   background: radial-gradient(circle, rgba(183, 241, 77, 0.18) 0%, rgba(183, 241, 77, 0) 70%);
   pointer-events: none;
   z-index: 0;
+  overflow: hidden;
 }
 
 /* Center Column Container */
 .bio-container {
   width: 100%;
-  max-width: 480px;
+  max-width: 440px;
+  margin: 0 auto;
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
+  align-items: center;
 }
 
-/* Profile Header */
+/* Profile Header (Targeted element) */
 .bio-profile-header {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-bottom: 8px;
+  padding: 4px 0 8px;
 }
 
 .bio-avatar-wrapper {
   position: relative;
-  margin-bottom: 16px;
+  margin: 0 auto 14px;
+  display: inline-flex;
 }
 
 .bio-avatar-ring {
-  width: 96px;
-  height: 96px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  padding: 4px;
+  padding: 3px;
   background: linear-gradient(135deg, var(--blue) 0%, var(--green) 100%);
-  box-shadow: 0 10px 25px -5px rgba(6, 79, 189, 0.25);
+  box-shadow: 0 8px 20px -4px rgba(6, 79, 189, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,8 +154,8 @@ body {
 
 .bio-status-badge {
   position: absolute;
-  bottom: 4px;
-  right: 4px;
+  bottom: 2px;
+  right: 2px;
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -175,13 +200,22 @@ body {
   }
 }
 
+.bio-brand-title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 .bio-brand-title h1 {
   font-family: 'Manrope', sans-serif;
-  font-size: 26px;
+  font-size: clamp(22px, 6vw, 26px);
   font-weight: 800;
   letter-spacing: -0.6px;
   color: var(--navy);
-  margin-bottom: 4px;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
 }
 
 .green-accent {
@@ -191,6 +225,7 @@ body {
 .bio-verified-tag {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   background: #eef8ea;
   color: #2b7016;
@@ -200,36 +235,42 @@ body {
   padding: 4px 10px;
   border-radius: 20px;
   border: 1px solid rgba(43, 112, 22, 0.15);
-  margin-bottom: 12px;
+  margin: 0 auto 10px;
 }
 
 .bio-bio-text {
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--text-muted);
-  max-width: 380px;
+  width: 100%;
+  max-width: 360px;
   margin: 0 auto 12px;
   line-height: 1.45;
+  text-align: center;
 }
 
 .bio-status-bar {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
   font-size: 11.5px;
   font-weight: 600;
   color: var(--navy);
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
-  padding: 6px 14px;
+  padding: 5px 14px;
   border-radius: 30px;
   border: 1px solid var(--border);
+  margin: 0 auto;
+  max-width: 100%;
 }
 
 .bio-status-item {
   display: flex;
   align-items: center;
   gap: 5px;
+  white-space: nowrap;
 }
 
 .bio-status-divider {
@@ -240,31 +281,32 @@ body {
 .bio-links-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
 
 /* Card Links */
 .bio-card-link {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 13px;
   background: var(--card-bg);
   border: 1px solid rgba(15, 36, 61, 0.09);
-  padding: 15px 16px;
+  padding: 14px 15px;
   border-radius: 16px;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 4px 12px -2px rgba(15, 36, 61, 0.05);
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 3px 10px -2px rgba(15, 36, 61, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
 }
 
 .bio-card-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px -3px rgba(15, 36, 61, 0.12);
-  border-color: rgba(6, 79, 189, 0.3);
+  box-shadow: 0 6px 18px -3px rgba(15, 36, 61, 0.1);
+  border-color: rgba(6, 79, 189, 0.25);
 }
 
 .bio-card-link:active {
@@ -276,22 +318,23 @@ body {
   background: linear-gradient(135deg, #072a59 0%, #064fbd 100%);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 24px -4px rgba(6, 79, 189, 0.38);
+  box-shadow: 0 6px 20px -3px rgba(6, 79, 189, 0.35);
 }
 
 .bio-card-link.is-featured:hover {
-  box-shadow: 0 12px 28px -3px rgba(6, 79, 189, 0.5);
-  transform: translateY(-2.5px);
+  box-shadow: 0 10px 24px -3px rgba(6, 79, 189, 0.45);
+  transform: translateY(-2px);
 }
 
 .bio-card-link.is-featured .bio-card-icon-box {
   background: #25d366;
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(37, 211, 102, 0.35);
 }
 
 .bio-card-link.is-featured .bio-card-title {
   color: #ffffff;
-  font-size: 15.5px;
+  font-size: 15px;
 }
 
 .bio-card-link.is-featured .bio-card-sub {
@@ -310,8 +353,9 @@ body {
 
 /* Icon Box */
 .bio-card-icon-box {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -321,7 +365,7 @@ body {
 }
 
 .bio-card-link:hover .bio-card-icon-box {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .theme-green .bio-card-icon-box {
@@ -342,18 +386,19 @@ body {
   min-width: 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .bio-card-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 .bio-card-title {
   font-family: 'Manrope', sans-serif;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--navy);
   letter-spacing: -0.2px;
@@ -361,30 +406,29 @@ body {
 }
 
 .bio-card-badge {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
   background: #edf4ff;
   color: var(--blue);
-  padding: 2px 7px;
+  padding: 1px 6px;
   border-radius: 6px;
 }
 
 .bio-card-sub {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-muted);
   line-height: 1.35;
   margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
 .bio-card-arrow {
   color: #94a3b8;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   transition: transform 0.2s ease, color 0.2s ease;
 }
@@ -400,10 +444,11 @@ body {
 
 /* Quick FAQ Section */
 .bio-faq-card {
+  width: 100%;
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 16px;
+  padding: 14px;
   box-shadow: 0 4px 14px -2px rgba(15, 36, 61, 0.04);
 }
 
@@ -412,10 +457,10 @@ body {
   align-items: center;
   gap: 6px;
   font-family: 'Manrope', sans-serif;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--navy);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -424,6 +469,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
 }
 
 .bio-faq-item {
@@ -447,9 +493,9 @@ body {
   text-align: left;
   background: none;
   border: none;
-  padding: 11px 12px;
+  padding: 10px 12px;
   font-family: inherit;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--navy);
   cursor: pointer;
@@ -468,27 +514,28 @@ body {
 }
 
 .bio-faq-answer {
-  padding: 0 12px 12px;
-  font-size: 12.5px;
+  padding: 0 12px 10px;
+  font-size: 12px;
   color: var(--text-muted);
   line-height: 1.5;
 }
 
 /* Footer Section */
 .bio-footer {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 12px;
-  padding-top: 10px;
+  gap: 10px;
+  padding-top: 6px;
 }
 
 .bio-company-box {
   background: rgba(255, 255, 255, 0.65);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 10px 12px;
   width: 100%;
   font-size: 11px;
   color: var(--text-muted);
@@ -499,18 +546,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   color: var(--navy);
-  font-size: 11px;
-  margin-bottom: 4px;
+  font-size: 11.5px;
+  margin-bottom: 2px;
 }
 
 .bio-footer-links {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  font-size: 12px;
+  gap: 8px;
+  font-size: 11.5px;
+  flex-wrap: wrap;
 }
 
 .bio-privacy-trigger {
@@ -521,7 +569,7 @@ body {
   cursor: pointer;
   text-decoration: underline;
   padding: 2px 4px;
-  font-size: 12px;
+  font-size: 11.5px;
 }
 
 .bio-privacy-trigger:hover {
@@ -543,27 +591,27 @@ body {
 }
 
 .bio-copyright {
-  font-size: 11px;
+  font-size: 10.5px;
   color: #94a3b8;
 }
 
 /* Floating Action Button */
 .bio-floating-btn {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 58px;
-  height: 58px;
+  bottom: 20px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: #25d366;
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
   text-decoration: none;
   z-index: 99;
-  transition: transform 0.25s ease, background 0.25s ease;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .bio-floating-btn:hover {
@@ -572,8 +620,8 @@ body {
 }
 
 .bio-floating-icon {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   position: relative;
   z-index: 2;
 }
@@ -596,18 +644,18 @@ body {
     opacity: 0.6;
   }
   60% {
-    transform: scale(1.4);
+    transform: scale(1.35);
     opacity: 0;
   }
   100% {
-    transform: scale(1.4);
+    transform: scale(1.35);
     opacity: 0;
   }
 }
 
 /* Dialog Modal */
 .bio-dialog {
-  max-width: 600px;
+  max-width: 520px;
   width: calc(100% - 32px);
   max-height: 85vh;
   border: none;
@@ -633,13 +681,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
+  padding: 16px 20px;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .bio-dialog-header h2 {
   font-family: 'Manrope', sans-serif;
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--navy);
 }
@@ -662,34 +710,34 @@ body {
 }
 
 .bio-dialog-body {
-  padding: 20px 24px;
+  padding: 16px 20px;
   overflow-y: auto;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--text-main);
   line-height: 1.6;
 }
 
 .bio-dialog-updated {
-  font-size: 12px;
+  font-size: 11.5px;
   color: #64748b;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .bio-dialog-body h3 {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--navy);
-  margin-top: 18px;
-  margin-bottom: 6px;
+  margin-top: 14px;
+  margin-bottom: 4px;
 }
 
 .bio-dialog-body p {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   color: #475569;
 }
 
 .bio-dialog-footer {
-  padding: 16px 24px;
+  padding: 14px 20px;
   border-top: 1px solid #e2e8f0;
   display: flex;
   justify-content: flex-end;
@@ -702,10 +750,10 @@ body {
   background: var(--blue);
   color: #ffffff;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 18px;
   border-radius: 10px;
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: 13px;
   cursor: pointer;
   transition: background 0.2s ease;
 }
@@ -714,39 +762,105 @@ body {
   background: #053ea0;
 }
 
-/* Mobile Responsiveness adjustments */
+/* Mobile Responsiveness Fine-Tuning */
 @media (max-width: 480px) {
   .bio-page-wrapper {
-    padding: 20px 12px 70px;
+    padding: 20px 12px 75px;
   }
 
-  .bio-card-link {
-    padding: 13px 14px;
+  .bio-container {
+    max-width: 100%;
     gap: 12px;
   }
 
+  .bio-profile-header {
+    padding: 2px 0 6px;
+  }
+
+  .bio-avatar-wrapper {
+    margin-bottom: 10px;
+  }
+
+  .bio-avatar-ring {
+    width: 80px;
+    height: 80px;
+  }
+
+  .bio-brand-title h1 {
+    font-size: 22px;
+  }
+
+  .bio-bio-text {
+    font-size: 12.5px;
+    padding: 0 4px;
+  }
+
+  .bio-status-bar {
+    font-size: 11px;
+    padding: 4px 12px;
+  }
+
+  .bio-card-link {
+    padding: 12px 12px;
+    gap: 11px;
+    border-radius: 14px;
+  }
+
   .bio-card-icon-box {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 10px;
   }
 
   .bio-card-title {
-    font-size: 14px;
+    font-size: 13.5px;
   }
 
   .bio-card-sub {
-    font-size: 11.5px;
+    font-size: 11px;
   }
 
   .bio-floating-btn {
-    bottom: 18px;
-    right: 18px;
-    width: 52px;
-    height: 52px;
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
   }
 
   .bio-floating-icon {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Ultra-compact screens (iPhone SE, small devices <= 360px) */
+@media (max-width: 360px) {
+  .bio-page-wrapper {
+    padding: 16px 8px 70px;
+  }
+
+  .bio-avatar-ring {
+    width: 72px;
+    height: 72px;
+  }
+
+  .bio-brand-title h1 {
+    font-size: 20px;
+  }
+
+  .bio-card-link {
+    padding: 10px 10px;
+    gap: 9px;
+  }
+
+  .bio-card-icon-box {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+  }
+
+  .bio-card-title {
+    font-size: 13px;
   }
 }

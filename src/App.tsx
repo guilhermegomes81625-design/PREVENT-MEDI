@@ -63,7 +63,7 @@ export default function App() {
     {
       id: 'atendimento',
       title: 'Atendimento ao Cliente',
-      subtitle: 'Inicie sua conversa com nosso time de atendimento',
+      subtitle: 'Inicie sua conversa com nossa central de atendimento',
       badge: 'Principal',
       isFeatured: true,
       icon: <MessageSquare className="w-5 h-5 text-white" />,
@@ -75,7 +75,7 @@ export default function App() {
       title: 'Falar com a Equipe',
       subtitle: 'Conecte-se com nossos consultores especializados',
       badge: 'Disponível',
-      icon: <Users className="w-5 h-5 text-[#39891d]" />,
+      icon: <Users className="w-5 h-5 text-[#2d7318]" />,
       message: 'Olá! Quero falar diretamente com a equipe da PREVENT+MEDI.',
       colorTheme: 'green',
     },
@@ -92,7 +92,7 @@ export default function App() {
       id: 'agendamentos',
       title: 'Agendamentos & Orientações',
       subtitle: 'Consulte horários, especialidades e rede de atendimento',
-      icon: <CalendarCheck className="w-5 h-5 text-[#39891d]" />,
+      icon: <CalendarCheck className="w-5 h-5 text-[#2d7318]" />,
       message: 'Olá! Gostaria de orientações sobre agendamentos e horários na PREVENT+MEDI.',
       colorTheme: 'green',
     },
@@ -108,7 +108,7 @@ export default function App() {
       id: 'duvidas',
       title: 'Tirar Dúvidas',
       subtitle: 'Esclarecimentos rápidos sobre o funcionamento',
-      icon: <HelpCircle className="w-5 h-5 text-[#39891d]" />,
+      icon: <HelpCircle className="w-5 h-5 text-[#2d7318]" />,
       message: 'Olá! Tenho algumas dúvidas e gostaria de ser orientado pela PREVENT+MEDI.',
       colorTheme: 'green',
     },
@@ -308,7 +308,7 @@ export default function App() {
             d="M16 3a13 13 0 0 0-11 20L3 29l6.2-1.8A13 13 0 1 0 16 3Z"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2.5"
+            strokeWidth="2.2"
           />
           <path
             d="M11 9c-1 0-2 2-2 3 0 4 6 10 10 10 2 0 4-2 3-3l-3-2-2 2c-2-1-4-3-5-5l2-2-2-3Z"
