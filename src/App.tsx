@@ -1,464 +1,314 @@
-import { useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import {
+  MessageSquare,
+  Users,
+  Layers,
+  Headphones,
+  HelpCircle,
+  CalendarCheck,
+  CheckCircle2,
+  ChevronRight,
+  ChevronDown,
+  Clock,
+  Building2,
+  Phone,
+  ShieldCheck,
+  X
+} from 'lucide-react';
+
+const WHATSAPP_PHONE = '5511965589793';
+
+function buildWhatsAppUrl(message: string): string {
+  return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
+}
+
+interface BioLink {
+  id: string;
+  title: string;
+  subtitle: string;
+  badge?: string;
+  isFeatured?: boolean;
+  icon: React.ReactNode;
+  message: string;
+  colorTheme?: 'green' | 'blue' | 'featured';
+}
 
 export default function App() {
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const privacyDialogRef = useRef<HTMLDialogElement>(null);
 
   const openPrivacy = () => {
-    dialogRef.current?.showModal();
+    privacyDialogRef.current?.showModal();
   };
 
   const closePrivacy = () => {
-    dialogRef.current?.close();
+    privacyDialogRef.current?.close();
   };
 
   const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
-    if (event.target === dialogRef.current) {
-      const r = dialogRef.current.getBoundingClientRect();
+    if (event.target === privacyDialogRef.current) {
+      const r = privacyDialogRef.current.getBoundingClientRect();
       if (
         event.clientX < r.left ||
         event.clientX > r.right ||
         event.clientY < r.top ||
         event.clientY > r.bottom
       ) {
-        dialogRef.current.close();
+        privacyDialogRef.current.close();
       }
     }
   };
 
-  useEffect(() => {
-    const yearEl = document.querySelector('#year');
-    if (yearEl) {
-      yearEl.textContent = new Date().getFullYear().toString();
-    }
-  }, []);
+  const bioLinks: BioLink[] = [
+    {
+      id: 'atendimento',
+      title: 'Atendimento ao Cliente',
+      subtitle: 'Inicie sua conversa com nosso time de atendimento',
+      badge: 'Principal',
+      isFeatured: true,
+      icon: <MessageSquare className="w-5 h-5 text-white" />,
+      message: 'Olá! Gostaria de iniciar meu atendimento com a PREVENT+MEDI.',
+      colorTheme: 'featured',
+    },
+    {
+      id: 'equipe',
+      title: 'Falar com a Equipe',
+      subtitle: 'Conecte-se com nossos consultores especializados',
+      badge: 'Disponível',
+      icon: <Users className="w-5 h-5 text-[#39891d]" />,
+      message: 'Olá! Quero falar diretamente com a equipe da PREVENT+MEDI.',
+      colorTheme: 'green',
+    },
+    {
+      id: 'planos',
+      title: 'Sobre Planos & Valores',
+      subtitle: 'Consulte modalidades, coberturas e novas adesões',
+      badge: 'Mais buscado',
+      icon: <Layers className="w-5 h-5 text-[#064fbd]" />,
+      message: 'Olá! Gostaria de informações detalhadas sobre os planos da PREVENT+MEDI.',
+      colorTheme: 'blue',
+    },
+    {
+      id: 'agendamentos',
+      title: 'Agendamentos & Orientações',
+      subtitle: 'Consulte horários, especialidades e rede de atendimento',
+      icon: <CalendarCheck className="w-5 h-5 text-[#39891d]" />,
+      message: 'Olá! Gostaria de orientações sobre agendamentos e horários na PREVENT+MEDI.',
+      colorTheme: 'green',
+    },
+    {
+      id: 'suporte',
+      title: 'Suporte & Solicitações',
+      subtitle: 'Acompanhamento de pedidos e auxílio direto',
+      icon: <Headphones className="w-5 h-5 text-[#064fbd]" />,
+      message: 'Olá! Preciso de suporte ao cliente e orientações sobre uma solicitação na PREVENT+MEDI.',
+      colorTheme: 'blue',
+    },
+    {
+      id: 'duvidas',
+      title: 'Tirar Dúvidas',
+      subtitle: 'Esclarecimentos rápidos sobre o funcionamento',
+      icon: <HelpCircle className="w-5 h-5 text-[#39891d]" />,
+      message: 'Olá! Tenho algumas dúvidas e gostaria de ser orientado pela PREVENT+MEDI.',
+      colorTheme: 'green',
+    },
+    {
+      id: 'ouvidoria',
+      title: 'Ouvidoria & SAC',
+      subtitle: 'Canal para elogios, sugestões e registros',
+      icon: <ShieldCheck className="w-5 h-5 text-[#064fbd]" />,
+      message: 'Olá! Gostaria de falar com o canal de Ouvidoria / SAC da PREVENT+MEDI.',
+      colorTheme: 'blue',
+    },
+  ];
 
-  const whatsappUrl =
-    'https://wa.me/5511965589793?text=Ol%C3%A1%20Gostaria%20de%20ser%20atendido%21';
+  const faqs = [
+    {
+      q: 'Como funciona o atendimento pelo WhatsApp?',
+      a: 'Basta tocar em qualquer um dos botões acima. Você será direcionado para o aplicativo do WhatsApp com uma mensagem inicial já pronta, bastando enviar para iniciar a conversa com a nossa central.',
+    },
+    {
+      q: 'Qual é o horário e tempo de resposta?',
+      a: 'Nossa equipe atende de segunda a sábado em horário comercial. As mensagens são respondidas em ordem de recebimento com tempo médio de atendimento inferior a 2 minutos.',
+    },
+    {
+      q: 'Posso acessar pelo computador?',
+      a: 'Sim! Ao clicar nos botões através do computador, o link abrirá automaticamente o WhatsApp Web ou o aplicativo desktop.',
+    },
+    {
+      q: 'Quem é a empresa responsável?',
+      a: 'A PREVENT+MEDI é inscrita no CNPJ 17.985.717/0001-32.',
+    },
+  ];
 
   return (
-    <>
-      <header>
-        <div className="container header">
-          <a className="brand" href="#inicio" aria-label="PREVENT-MEDI, início">
-            <img src="/assets/logo.png" alt="" width={56} height={56} />
-            <span>
-              PREVENT<span className="green">-MEDI</span>
-              <small>ATENDIMENTO AO CLIENTE</small>
-            </span>
-          </a>
-          <nav aria-label="Navegação principal">
-            <a href="#atendimento">Atendimento</a>
-            <a href="#sobre">Sobre nós</a>
-            <a href="#duvidas">Dúvidas</a>
-          </nav>
-          <a
-            className="button compact whatsapp"
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Falar no WhatsApp <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </header>
+    <div className="bio-page-wrapper">
+      {/* Background ambient lighting */}
+      <div className="bio-glow-1" aria-hidden="true" />
+      <div className="bio-glow-2" aria-hidden="true" />
 
-      <main>
-        <section className="hero" id="inicio">
-          <div className="container hero-grid">
-            <div className="hero-copy">
-              <span className="eyebrow">
-                <i></i> PESSOAS CONECTADAS A PESSOAS
-              </span>
-              <h1>
-                Uma boa conversa
-                <br />
-                faz toda a <em>diferença.</em>
-              </h1>
-              <p>
-                Atendimento ao cliente com atenção ao que você precisa. Tire
-                dúvidas, solicite informações e converse com a PREVENT-MEDI em um
-                canal direto pelo WhatsApp.
-              </p>
-              <a
-                className="button whatsapp"
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Quero ser atendido <span aria-hidden="true">↗</span>
-              </a>
-              <span className="micro">Você será direcionado ao WhatsApp.</span>
-              <div className="hero-notes">
-                <span>✓ Contato direto</span>
-                <span>✓ Atendimento ao cliente</span>
-                <span>✓ Pelo celular ou computador</span>
-              </div>
-            </div>
-            <div className="hero-visual">
-              <img
-                className="main-photo"
-                src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&amp;fit=crop&amp;w=1100&amp;q=85"
-                width={900}
-                height={1000}
-                alt="Profissionais conversando em um ambiente de trabalho moderno — imagem ilustrativa"
-                fetchPriority="high"
-              />
-              <div className="photo-label">CONEXÃO QUE APROXIMA</div>
-              <div className="conversation">
-                <span className="bubble-icon" aria-hidden="true">
-                  ☏
-                </span>
-                <div>
-                  <strong>Vamos conversar?</strong>
-                  <span>Sua próxima conversa começa aqui.</span>
-                </div>
-                <span className="dot" aria-hidden="true"></span>
-              </div>
-              <span className="image-caption">Imagem ilustrativa</span>
-            </div>
-          </div>
-        </section>
-
-        <div className="principles">
-          <div className="container">
-            <span>ATENÇÃO EM CADA CONVERSA</span>
-            <strong>Clareza nas informações</strong>
-            <strong>Respeito ao cliente</strong>
-            <strong>Contato descomplicado</strong>
-          </div>
-        </div>
-
-        <section className="section" id="atendimento">
-          <div className="container">
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow blue">COMO PODEMOS AJUDAR</span>
-                <h2>
-                  O atendimento começa
-                  <br />
-                  com você.
-                </h2>
-              </div>
-              <p>
-                Escolha o que precisa e conte sua solicitação. Nossa central
-                recebe seu contato pelo WhatsApp para entender o assunto e
-                orientar o atendimento.
-              </p>
-            </div>
-            <div className="cards">
-              <article className="card">
-                <span className="card-icon" aria-hidden="true">
-                  ✳
-                </span>
-                <span className="number">01</span>
-                <h3>Dúvidas e informações</h3>
-                <p>
-                  Quer entender melhor nossos canais de atendimento? Converse
-                  com a central e apresente suas dúvidas antes de seguir com sua
-                  solicitação.
-                </p>
-                <a
-                  className="text-link whatsapp"
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Tirar uma dúvida <span aria-hidden="true">↗</span>
-                </a>
-              </article>
-              <article className="card featured">
-                <span className="card-icon" aria-hidden="true">
-                  ☏
-                </span>
-                <span className="number">02</span>
-                <h3>Atendimento ao cliente</h3>
-                <p>
-                  Fale sobre o motivo do seu contato. A conversa permite
-                  compreender sua necessidade e informar as possibilidades de
-                  atendimento.
-                </p>
-                <a
-                  className="text-link whatsapp"
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Falar com o atendimento <span aria-hidden="true">↗</span>
-                </a>
-              </article>
-              <article className="card">
-                <span className="card-icon" aria-hidden="true">
-                  ↗
-                </span>
-                <span className="number">03</span>
-                <h3>Solicitações e orientação</h3>
-                <p>
-                  Encaminhe seu pedido com uma breve descrição. A central poderá
-                  orientar os próximos passos conforme o assunto apresentado.
-                </p>
-                <a
-                  className="text-link whatsapp"
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Enviar uma solicitação <span aria-hidden="true">↗</span>
-                </a>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="section about" id="sobre">
-          <div className="container about-grid">
-            <div className="about-visual">
-              <img
-                src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&amp;fit=crop&amp;w=1000&amp;q=80"
-                width={900}
-                height={750}
-                alt="Pessoas colaborando em um escritório — imagem ilustrativa"
-                loading="lazy"
-              />
-              <div className="about-stamp">
-                Por trás de cada contato,
-                <br />
-                <strong>uma pessoa.</strong>
-              </div>
-              <span className="image-caption">Imagem ilustrativa</span>
-            </div>
-            <div>
-              <span className="eyebrow blue">CONHEÇA A PREVENT-MEDI</span>
-              <h2>
-                Mais proximidade.
-                <br />
-                Mais clareza no atendimento.
-              </h2>
-              <p>
-                A PREVENT-MEDI é a marca apresentada neste site para os serviços
-                de call center e atendimento ao cliente da{' '}
-                <strong>AG CALL CENTER SERVICOS DE TELEMARKETING LTDA</strong>,
-                inscrita no CNPJ 17.985.717/0001-32.
-              </p>
-              <p>
-                Nosso canal de contato recebe dúvidas, pedidos de informações e
-                solicitações. Ao iniciar a conversa, explique o que você precisa
-                para que o atendimento possa compreender seu pedido.
-              </p>
-              <div className="about-list">
-                <span>✓ Informações da empresa acessíveis</span>
-                <span>✓ Canal de contato identificado</span>
-                <span>✓ Conversa iniciada por você</span>
-              </div>
-              <a
-                className="button dark whatsapp"
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Conversar com a PREVENT-MEDI <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <section className="section steps">
-          <div className="container">
-            <span className="eyebrow blue">SIMPLES, DO INÍCIO AO CONTATO</span>
-            <h2>A poucos passos de uma conversa.</h2>
-            <div className="step-grid">
-              <article>
-                <span>01</span>
-                <h3>Clique em um botão</h3>
-                <p>
-                  Use qualquer botão de atendimento deste site para abrir nosso
-                  número no WhatsApp.
-                </p>
-              </article>
-              <article>
-                <span>02</span>
-                <h3>Envie sua mensagem</h3>
-                <p>
-                  A mensagem “Olá Gostaria de ser atendido!” estará pronta.
-                  Revise e toque em enviar.
-                </p>
-              </article>
-              <article>
-                <span>03</span>
-                <h3>Conte o que precisa</h3>
-                <p>
-                  Descreva sua dúvida ou solicitação. O atendimento acontece na
-                  conversa do WhatsApp.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="section faq" id="duvidas">
-          <div className="container faq-grid">
-            <div>
-              <span className="eyebrow blue">PERGUNTAS FREQUENTES</span>
-              <h2>
-                Antes de começar,
-                <br />
-                tire suas dúvidas.
-              </h2>
-              <p>Informações para você entrar em contato com mais clareza.</p>
-              <a
-                className="text-link whatsapp"
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Tenho outra dúvida <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-            <div>
-              <details open>
-                <summary>Como falar com a PREVENT-MEDI?</summary>
-                <p>
-                  Clique em “Quero ser atendido” ou em outro botão de WhatsApp.
-                  Você será direcionado ao número (11) 96558-9793. A mensagem só
-                  será enviada quando você confirmar o envio no WhatsApp.
-                </p>
-              </details>
-              <details>
-                <summary>Quais assuntos posso encaminhar?</summary>
-                <p>
-                  Você pode apresentar dúvidas, pedir informações sobre o
-                  atendimento e encaminhar solicitações. Explique o motivo do
-                  contato para receber orientação sobre os próximos passos e o
-                  escopo disponível.
-                </p>
-              </details>
-              <details>
-                <summary>Posso acessar pelo computador?</summary>
-                <p>
-                  Sim. O link abre o WhatsApp e permite continuar pelo aplicativo
-                  ou pelo WhatsApp Web, conforme a disponibilidade e a
-                  configuração do seu dispositivo.
-                </p>
-              </details>
-              <details>
-                <summary>O atendimento é automático ou imediato?</summary>
-                <p>
-                  Os botões apenas abrem o canal de contato. Este site não
-                  confirma disponibilidade em tempo real nem garante resposta
-                  imediata. Consulte os horários e a disponibilidade diretamente
-                  na conversa.
-                </p>
-              </details>
-              <details>
-                <summary>Quem é responsável por este site?</summary>
-                <p>
-                  A empresa identificada é AG CALL CENTER SERVICOS DE
-                  TELEMARKETING LTDA, CNPJ 17.985.717/0001-32. Os dados de
-                  contato e endereço estão disponíveis no rodapé.
-                </p>
-              </details>
-            </div>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container final-cta">
-            <div>
-              <span className="eyebrow">SEU PRÓXIMO PASSO É UMA CONVERSA</span>
-              <h2>Como podemos ajudar você hoje?</h2>
-              <p>Entre em contato com a PREVENT-MEDI pelo WhatsApp.</p>
-            </div>
-            <a
-              className="button whatsapp"
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Iniciar atendimento <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </section>
-      </main>
-
-      <footer>
-        <div className="container footer-grid">
-          <div>
-            <a className="brand" href="#inicio">
+      <div className="bio-container">
+        {/* Profile Card Header */}
+        <header className="bio-profile-header">
+          <div className="bio-avatar-wrapper">
+            <div className="bio-avatar-ring">
               <img
                 src="/assets/logo.png"
-                alt="Logo PREVENT-MEDI"
-                width={60}
-                height={60}
+                alt="Logo PREVENT+MEDI"
+                className="bio-avatar-img"
+                width={96}
+                height={96}
               />
-              <span>
-                PREVENT-MEDI<small>ATENDIMENTO AO CLIENTE</small>
-              </span>
-            </a>
-            <p>
-              Conectando pessoas por meio
-              <br />
-              de um atendimento mais próximo.
-            </p>
+            </div>
+            <div className="bio-status-badge" title="Atendimento Online">
+              <span className="bio-status-pulse"></span>
+              <span className="bio-status-dot"></span>
+            </div>
           </div>
-          <div>
-            <h3>Informações da empresa</h3>
-            <p>
-              AG CALL CENTER SERVICOS DE TELEMARKETING LTDA
-              <br />
-              CNPJ: 17.985.717/0001-32
-            </p>
-            <p>
-              Rua Conselheiro Brotero, 206, Andar 3<br />
-              Barra Funda, São Paulo – SP
-              <br />
-              CEP 01154-000
-            </p>
+
+          <div className="bio-brand-title">
+            <h1>
+              PREVENT<span className="green-accent">+MEDI</span>
+            </h1>
+            <div className="bio-verified-tag">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#39891d]" />
+              <span>Atendimento ao Cliente</span>
+            </div>
           </div>
-          <div>
-            <h3>Fale com a gente</h3>
+
+          <p className="bio-bio-text">
+            Central de atendimento direto pelo WhatsApp. Escolha uma das opções abaixo para iniciar sua conversa com a PREVENT+MEDI:
+          </p>
+
+          {/* Status pill */}
+          <div className="bio-status-bar">
+            <div className="bio-status-item">
+              <Clock className="w-3.5 h-3.5 text-[#25d366]" />
+              <span>Resposta Rápida</span>
+            </div>
+            <span className="bio-status-divider">•</span>
+            <div className="bio-status-item">
+              <Phone className="w-3.5 h-3.5 text-[#064fbd]" />
+              <span>(11) 96558-9793</span>
+            </div>
+          </div>
+        </header>
+
+        {/* Buttons List */}
+        <section className="bio-links-section" aria-label="Links de Atendimento no WhatsApp">
+          {bioLinks.map((link) => (
             <a
-              className="footer-contact whatsapp"
-              href={whatsappUrl}
+              key={link.id}
+              href={buildWhatsAppUrl(link.message)}
               target="_blank"
               rel="noopener noreferrer"
+              className={`bio-card-link ${link.isFeatured ? 'is-featured' : ''} theme-${link.colorTheme || 'default'}`}
             >
-              WhatsApp: (11) 96558-9793 ↗
+              <div className="bio-card-icon-box">
+                {link.icon}
+              </div>
+
+              <div className="bio-card-content">
+                <div className="bio-card-header">
+                  <span className="bio-card-title">{link.title}</span>
+                  {link.badge && (
+                    <span className="bio-card-badge">{link.badge}</span>
+                  )}
+                </div>
+                <span className="bio-card-sub">{link.subtitle}</span>
+              </div>
+
+              <div className="bio-card-arrow" aria-hidden="true">
+                <ChevronRight className="w-5 h-5" />
+              </div>
             </a>
-            <p>
-              Consulte a disponibilidade de atendimento
-              <br />
-              diretamente pelo nosso canal.
+          ))}
+        </section>
+
+        {/* Quick FAQ Dropdown */}
+        <section className="bio-faq-card">
+          <h2 className="bio-faq-title">
+            <HelpCircle className="w-4 h-4 text-[#064fbd]" />
+            Dúvidas frequentes
+          </h2>
+
+          <div className="bio-faq-list">
+            {faqs.map((faq, index) => {
+              const isOpen = openFaq === index;
+              return (
+                <div key={index} className={`bio-faq-item ${isOpen ? 'open' : ''}`}>
+                  <button
+                    type="button"
+                    className="bio-faq-question"
+                    onClick={() => setOpenFaq(isOpen ? null : index)}
+                    aria-expanded={isOpen}
+                  >
+                    <span>{faq.q}</span>
+                    <ChevronDown className={`w-4 h-4 bio-faq-chevron ${isOpen ? 'rotate' : ''}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="bio-faq-answer">
+                      <p>{faq.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Institutional Section */}
+        <footer className="bio-footer">
+          <div className="bio-company-box">
+            <div className="bio-company-header">
+              <Building2 className="w-4 h-4 text-[#064fbd]" />
+              <strong>PREVENT+MEDI</strong>
+            </div>
+            <p className="bio-company-text">
+              CNPJ: 17.985.717/0001-32
             </p>
+          </div>
+
+          <div className="bio-footer-links">
             <button
-              className="privacy-link"
-              id="open-privacy"
+              type="button"
+              className="bio-privacy-trigger"
               onClick={openPrivacy}
             >
-              Política de privacidade
+              Política de Privacidade
             </button>
+            <span className="bio-dot-sep">•</span>
+            <a
+              href={buildWhatsAppUrl('Olá! Gostaria de falar com o atendimento da PREVENT+MEDI.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bio-whatsapp-text-link"
+            >
+              WhatsApp: (11) 96558-9793
+            </a>
           </div>
-        </div>
-        <div className="container footer-bottom">
-          <span>
-            © <span id="year">2026</span> PREVENT-MEDI. Todos os direitos
-            reservados.
-          </span>
-          <span>Call center e atendimento ao cliente.</span>
-        </div>
-      </footer>
 
+          <p className="bio-copyright">
+            © {new Date().getFullYear()} PREVENT+MEDI. Todos os direitos reservados.
+          </p>
+        </footer>
+      </div>
+
+      {/* Persistent Floating WhatsApp Action Button */}
       <a
-        className="floating whatsapp"
-        href={whatsappUrl}
+        href={buildWhatsAppUrl('Olá! Gostaria de ser atendido pela PREVENT+MEDI!')}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Abrir atendimento da PREVENT-MEDI no WhatsApp"
+        className="bio-floating-btn"
+        aria-label="Abrir atendimento no WhatsApp"
       >
-        <svg viewBox="0 0 32 32" aria-hidden="true">
+        <span className="bio-floating-ping" />
+        <svg viewBox="0 0 32 32" className="bio-floating-icon" aria-hidden="true">
           <path
             d="M16 3a13 13 0 0 0-11 20L3 29l6.2-1.8A13 13 0 1 0 16 3Z"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="2.5"
           />
           <path
             d="M11 9c-1 0-2 2-2 3 0 4 6 10 10 10 2 0 4-2 3-3l-3-2-2 2c-2-1-4-3-5-5l2-2-2-3Z"
@@ -467,77 +317,75 @@ export default function App() {
         </svg>
       </a>
 
-      <div className="mobile-cta">
-        <a
-          className="button whatsapp"
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Falar no WhatsApp <span aria-hidden="true">↗</span>
-        </a>
-      </div>
-
+      {/* Privacy Policy Modal Dialog */}
       <dialog
         id="privacy"
-        ref={dialogRef}
+        ref={privacyDialogRef}
         aria-labelledby="privacy-title"
         onClick={handleBackdropClick}
+        className="bio-dialog"
       >
-        <button
-          className="close"
-          id="close-privacy"
-          aria-label="Fechar política de privacidade"
-          onClick={closePrivacy}
-        >
-          ×
-        </button>
-        <h2 id="privacy-title">Política de privacidade</h2>
-        <p>Atualizada em 16 de outubro de 2026.</p>
-        <h3>Responsável e contato</h3>
-        <p>
-          AG CALL CENTER SERVICOS DE TELEMARKETING LTDA, CNPJ 17.985.717/0001-32,
-          Rua Conselheiro Brotero, 206, Andar 3, Barra Funda, São Paulo – SP, CEP
-          01154-000. Para questões sobre privacidade e seus dados, entre em
-          contato pelo WhatsApp (11) 96558-9793.
-        </p>
-        <h3>Uso deste site</h3>
-        <p>
-          Esta página apresenta os serviços e os dados de contato da
-          PREVENT-MEDI. Não possui formulário, cadastro, área de login ou
-          ferramenta de pagamento. Esta versão não instala cookies de publicidade
-          ou ferramentas de análise.
-        </p>
-        <h3>Contato pelo WhatsApp</h3>
-        <p>
-          Ao clicar em um botão de atendimento, você acessa uma plataforma
-          externa. O número de telefone, o perfil e as informações que você optar
-          por enviar na conversa poderão ser utilizados pela empresa para
-          compreender e responder à sua solicitação e dar continuidade ao
-          atendimento. Compartilhe apenas os dados necessários, evitando senhas e
-          informações sensíveis.
-        </p>
-        <p>
-          O WhatsApp possui suas próprias regras e política de privacidade. A
-          mensagem sugerida somente é enviada após sua ação na plataforma.
-        </p>
-        <h3>Serviços externos e registros técnicos</h3>
-        <p>
-          As fotografias ilustrativas são carregadas de images.unsplash.com. O
-          provedor de hospedagem e os servidores de imagens podem receber dados
-          técnicos, como endereço IP, navegador e registros de acesso,
-          necessários à entrega dos arquivos. Esta página não solicita sua
-          localização precisa.
-        </p>
-        <h3>Solicitações sobre seus dados</h3>
-        <p>
-          Use o contato informado para solicitar informações sobre o tratamento de
-          seus dados e exercer seus direitos aplicáveis, incluindo acesso,
-          correção e exclusão, observadas as obrigações de conservação pertinentes.
-          O site não coleta diretamente dados da conversa nem define um prazo
-          automático de exclusão de mensagens.
-        </p>
+        <div className="bio-dialog-content">
+          <div className="bio-dialog-header">
+            <h2 id="privacy-title">Política de Privacidade</h2>
+            <button
+              className="bio-dialog-close"
+              onClick={closePrivacy}
+              aria-label="Fechar política de privacidade"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          <div className="bio-dialog-body">
+            <p className="bio-dialog-updated">Atualizada em 16 de outubro de 2026.</p>
+
+            <h3>Responsável e contato</h3>
+            <p>
+              PREVENT+MEDI, CNPJ 17.985.717/0001-32.
+              Para questões sobre privacidade e dados, entre em contato pelo WhatsApp (11) 96558-9793.
+            </p>
+
+            <h3>Uso deste site</h3>
+            <p>
+              Esta página apresenta os serviços e canais de contato da PREVENT+MEDI.
+              Não possui formulário invasivo, cadastro obrigatório ou ferramenta de pagamento.
+              Esta versão não instala cookies de publicidade ou ferramentas de análise indesejadas.
+            </p>
+
+            <h3>Contato pelo WhatsApp</h3>
+            <p>
+              Ao clicar em qualquer botão de atendimento, você acessa uma plataforma externa.
+              O número de telefone, o perfil e as informações que você optar por enviar na conversa
+              poderão ser utilizados pela empresa para compreender e responder à sua solicitação e dar
+              continuidade ao atendimento. Compartilhe apenas os dados necessários, evitando senhas e informações sensíveis.
+            </p>
+            <p>
+              O WhatsApp possui suas próprias regras e política de privacidade. A mensagem sugerida
+              somente é enviada após sua ação na plataforma.
+            </p>
+
+            <h3>Serviços externos e registros técnicos</h3>
+            <p>
+              Os servidores de hospedagem podem receber dados técnicos básicos, como endereço IP,
+              navegador e registros de acesso, necessários à entrega segura dos arquivos. Esta página não solicita sua localização precisa.
+            </p>
+
+            <h3>Solicitações sobre seus dados</h3>
+            <p>
+              Use o contato informado para solicitar informações sobre o tratamento de seus dados
+              e exercer seus direitos aplicáveis, incluindo acesso, correção e exclusão, observadas as
+              obrigações legais pertinentes.
+            </p>
+          </div>
+
+          <div className="bio-dialog-footer">
+            <button type="button" className="bio-dialog-ok-btn" onClick={closePrivacy}>
+              Entendi e concordo
+            </button>
+          </div>
+        </div>
       </dialog>
-    </>
+    </div>
   );
 }
