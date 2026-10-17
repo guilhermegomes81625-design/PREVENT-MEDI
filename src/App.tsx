@@ -16,7 +16,7 @@ import {
   X
 } from 'lucide-react';
 
-const WHATSAPP_PHONE = '5511965589793';
+const WHATSAPP_PHONE = '5511918397149';
 
 function buildWhatsAppUrl(message: string): string {
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
@@ -189,7 +189,7 @@ export default function App() {
             <span className="bio-status-divider">•</span>
             <div className="bio-status-item">
               <Phone className="w-3.5 h-3.5 text-[#064fbd]" />
-              <span>(11) 96558-9793</span>
+              <span>(11) 91839-7149</span>
             </div>
           </div>
         </header>
@@ -284,7 +284,7 @@ export default function App() {
               rel="noopener noreferrer"
               className="bio-whatsapp-text-link"
             >
-              WhatsApp: (11) 96558-9793
+              WhatsApp: (11) 91839-7149
             </a>
           </div>
 
@@ -343,7 +343,7 @@ export default function App() {
             <h3>Responsável e contato</h3>
             <p>
               PREVENT+MEDI, CNPJ 17.985.717/0001-32.
-              Para questões sobre privacidade e dados, entre em contato pelo WhatsApp (11) 96558-9793.
+              Para questões sobre privacidade e dados, entre em contato pelo WhatsApp (11) 91839-7149.
             </p>
 
             <h3>Uso deste site</h3>
