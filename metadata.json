@@ -1,6 +1,6 @@
 {
-  "name": "PREVENT+MEDI",
-  "description": "Atendimento ao cliente pelo WhatsApp - PREVENT+MEDI",
+  "name": "Central de Atendimento",
+  "description": "Canais de Atendimento ao Cliente pelo WhatsApp",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
