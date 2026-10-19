@@ -6,6 +6,10 @@ import {
   ShieldCheck,
   CheckCheck,
   HelpCircle,
+  MessageCircle,
+  CalendarDays,
+  Phone,
+  ChevronRight,
   X
 } from 'lucide-react';
 
@@ -102,12 +106,37 @@ export default function App() {
     'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80';
 
   return (
-    <div className={`bio-page-wrapper ${isContact ? 'theme-medi-page' : 'theme-prevent-page'}`}>
+    <div className={`bio-page-wrapper ${isContact ? 'theme-medi-page' : 'theme-prevent-page central-home'}`}>
       {/* Background ambient lighting */}
       <div className="bio-glow-1" aria-hidden="true" />
       <div className="bio-glow-2" aria-hidden="true" />
 
       <div className="bio-container">
+
+        {!isContact && (
+          <>
+            <header className="central-intro">
+              <h1><ShieldCheck size={15} aria-hidden="true" /> Atendimento ao Cliente</h1>
+              <p>Central de atendimento direto pelo WhatsApp. Escolha uma das opções abaixo para iniciar sua conversa:</p>
+            </header>
+            <nav className="central-options" aria-label="Opções de atendimento">
+              {[
+                { title: 'Atendimento ao Cliente', description: 'Inicie sua conversa com nossa central de atendimento', badge: 'PRINCIPAL', Icon: MessageCircle, message: 'Olá! Gostaria de iniciar meu atendimento com a central.' },
+                { title: 'Agendamento', description: 'Faça um agendamento com a nossa central de atendimento.', badge: '', Icon: CalendarDays, message: 'Olá! Gostaria de fazer um agendamento com a central de atendimento.' },
+                { title: 'Atendimento pelo WhatsApp', description: 'Fale com um de nossos atendentes pelo WhatsApp.', badge: '', Icon: Phone, message: 'Olá! Gostaria de falar com um de nossos atendentes.' },
+                { title: 'Tirar Dúvidas', description: 'Esclarecimentos sobre prazos e funcionamento', badge: '', Icon: HelpCircle, message: 'Olá! Tenho algumas dúvidas e gostaria de ser atendido.' },
+              ].map(({ title, description, badge, Icon, message }, index) => (
+                <a key={title} className={`central-option ${index === 0 ? 'central-option-primary' : ''}`} href={buildWhatsAppUrl(message)} target="_blank" rel="noopener noreferrer">
+                  <span className="central-option-icon"><Icon size={23} aria-hidden="true" /></span>
+                  <span className="central-option-content"><span className="central-option-title">{title}{badge && <small>{badge}</small>}</span><span className="central-option-description">{description}</span></span>
+                  <ChevronRight size={20} className="central-option-arrow" aria-hidden="true" />
+                </a>
+              ))}
+            </nav>
+          </>
+        )}
+
+        {isContact && <>
         {/* Virtual Attendant Header */}
         <header className="bio-attendant-card">
           <div className="bio-attendant-avatar-col">
@@ -212,6 +241,8 @@ export default function App() {
           )}
         </section>
 
+        </>}
+
         {/* Quick FAQ Dropdown */}
         <section className="bio-faq-card">
           <h2 className="bio-faq-title">
@@ -220,7 +251,7 @@ export default function App() {
           </h2>
 
           <div className="bio-faq-list">
-            {faqs.map((faq, index) => {
+            {faqs.filter((_, index) => isContact || index !== 2).map((faq, index) => {
               const isOpen = openFaq === index;
               return (
                 <div key={index} className={`bio-faq-item ${isOpen ? 'open' : ''}`}>
@@ -243,6 +274,8 @@ export default function App() {
             })}
           </div>
         </section>
+
+        {!isContact && <a className="central-bottom-cta" href={buildWhatsAppUrl('Olá! Gostaria de ser atendido pela central de atendimento.')} target="_blank" rel="noopener noreferrer"><WhatsAppIcon className="central-whatsapp-icon" /> Abrir atendimento no WhatsApp</a>}
 
         {/* Institutional Section */}
         <footer className="bio-footer">
