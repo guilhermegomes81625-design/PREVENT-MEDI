@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+const base = process.env.PANEL_TEST_URL || 'http://127.0.0.1:4185';
+let session = '';
+async function call(path, method = 'GET', body, authenticated = true, origin = base) {
+  const response = await fetch(base + '/api/' + path, { method, headers: { Origin: origin, 'Content-Type': 'application/json', ...(authenticated && session ? { Cookie: session } : {}) }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
+  const data = await response.json(); return { response, data };
+}
+assert.ok(process.env.PANEL_TEST_PASSWORD, 'Set PANEL_TEST_PASSWORD');
+assert.equal((await call('admin', 'GET', undefined, false)).response.status, 401);
+assert.equal((await call('session', 'POST', { password: 'incorrect' }, false)).response.status, 401);
+const login = await call('session', 'POST', { password: process.env.PANEL_TEST_PASSWORD }, false);
+assert.equal(login.response.status, 200);
+assert.match(login.response.headers.get('set-cookie'), /HttpOnly; Secure; SameSite=Strict/);
+session = login.response.headers.get('set-cookie').split(';')[0];
+const initial = (await call('admin')).data;
+const testRows = [{ id: 'test-a', name: 'Teste A', phone: '5511966604328', active: true }, { id: 'test-b', name: 'Teste B', phone: '5511966604329', active: true }];
+let current = (await call('admin', 'PUT', { version: initial.version, attendants: testRows })).data;
+const allocations = await Promise.all(Array.from({ length: 20 }, () => call('route', 'POST', {})));
+assert.equal(allocations.filter(a => a.data.phone === testRows[0].phone).length, 10);
+assert.equal(allocations.filter(a => a.data.phone === testRows[1].phone).length, 10);
+assert.equal((await call('admin', 'PUT', { version: initial.version, attendants: testRows })).response.status, 409);
+assert.equal((await call('admin', 'PUT', { version: current.version, attendants: testRows }, true, 'https://other.invalid')).response.status, 403);
+assert.equal((await call('admin', 'PUT', { version: current.version, attendants: [testRows[0], { ...testRows[1], phone: testRows[0].phone }] })).response.status, 400);
+testRows[0].active = false;
+current = (await call('admin', 'PUT', { version: current.version, attendants: testRows })).data;
+for (let i = 0; i < 4; i++) assert.equal((await call('route', 'POST', {})).data.phone, testRows[1].phone);
+testRows[1].active = false;
+current = (await call('admin', 'PUT', { version: current.version, attendants: testRows })).data;
+assert.equal((await call('availability')).data.phone, null);
+assert.equal((await call('route', 'POST', {})).response.status, 503);
+await call('admin', 'PUT', { version: current.version, attendants: initial.attendants });
+await call('session', 'DELETE');
+assert.equal((await call('admin')).response.status, 401);
+console.log('PASS: login, protected API, atomic rotation (20 concurrent clicks), pause, all paused, validation, conflicts, CSRF, restore and logout.');
