@@ -32,7 +32,7 @@ export default function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const privacyDialogRef = useRef<HTMLDialogElement>(null);
 
-  const isMedi = currentPath.includes('/medi');
+  const isContact = currentPath.replace(/\/+$/, '') === '/contato';
 
   useEffect(() => {
     const handlePopState = () => {
@@ -102,7 +102,7 @@ export default function App() {
     'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80';
 
   return (
-    <div className={`bio-page-wrapper ${isMedi ? 'theme-medi-page' : 'theme-prevent-page'}`}>
+    <div className={`bio-page-wrapper ${isContact ? 'theme-medi-page' : 'theme-prevent-page'}`}>
       {/* Background ambient lighting */}
       <div className="bio-glow-1" aria-hidden="true" />
       <div className="bio-glow-2" aria-hidden="true" />
