@@ -1,0 +1,4 @@
+/painel
+  X-Robots-Tag: noindex, nofollow
+/painel/*
+  X-Robots-Tag: noindex, nofollow
