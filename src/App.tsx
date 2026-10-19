@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useWhatsAppRouting } from './useWhatsAppRouting';
 import {
   CheckCircle2,
   ChevronDown,
@@ -13,48 +14,6 @@ import {
   X
 } from 'lucide-react';
 
-const WHATSAPP_PHONE = '5511965589793';
-
-function buildWhatsAppUrl(message: string): string {
-  return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
-}
-
-
-// Keep HTTPS links for desktop, accessibility and the existing GTM click trigger.
-let cancelWhatsAppAttempt: (() => void) | undefined;
-function openWhatsAppOnMobile(event: React.MouseEvent<HTMLDivElement>) {
-  if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-  const target = event.target instanceof Element ? event.target : null;
-  const link = target?.closest<HTMLAnchorElement>('a[href]');
-  if (!link || !event.currentTarget.contains(link)) return;
-  const url = new URL(link.href);
-  if (url.hostname !== 'wa.me' || !/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) return;
-  event.preventDefault();
-  cancelWhatsAppAttempt?.();
-  const phone = url.pathname.replace(/\D/g, '');
-  const message = url.searchParams.get('text') || '';
-  if (!phone) { window.location.assign(link.href); return; }
-  const appUrl = 'whatsapp://send?phone=' + phone + '&text=' + encodeURIComponent(message);
-  let fallbackTimer: ReturnType<typeof setTimeout> | undefined;
-  const cleanup = () => {
-    if (fallbackTimer) clearTimeout(fallbackTimer);
-    document.removeEventListener('visibilitychange', onVisibilityChange);
-    window.removeEventListener('pagehide', cleanup);
-    cancelWhatsAppAttempt = undefined;
-  };
-  const onVisibilityChange = () => { if (document.hidden) cleanup(); };
-  document.addEventListener('visibilitychange', onVisibilityChange);
-  window.addEventListener('pagehide', cleanup);
-  cancelWhatsAppAttempt = cleanup;
-  fallbackTimer = setTimeout(() => {
-    const shouldFallback = !document.hidden;
-    cleanup();
-    if (shouldFallback) window.location.assign(link.href);
-  }, 2200);
-  try { window.location.assign(appUrl); }
-  catch { cleanup(); window.location.assign(link.href); }
-}
-
 // Official WhatsApp Logo
 function WhatsAppIcon({ className = 'w-5 h-5' }: { className?: string }) {
   return (
@@ -65,6 +24,7 @@ function WhatsAppIcon({ className = 'w-5 h-5' }: { className?: string }) {
 }
 
 export default function App() {
+  const { phone, buildWhatsAppUrl, contactLabel, routeWhatsApp, routingNotice } = useWhatsAppRouting();
   const [currentPath, setCurrentPath] = useState<string>(
     typeof window !== 'undefined' ? window.location.pathname.toLowerCase() : '/'
   );
@@ -142,7 +102,9 @@ export default function App() {
     'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80';
 
   return (
-    <div onClick={openWhatsAppOnMobile} className={`bio-page-wrapper ${isContact ? 'theme-medi-page' : 'theme-prevent-page central-home'}`}>
+    <div onClick={routeWhatsApp} onAuxClick={routeWhatsApp} className={`bio-page-wrapper ${isContact ? 'theme-medi-page' : 'theme-prevent-page central-home'}`}>
+      {routingNotice && <div className="routing-notice" role="status">{routingNotice}</div>}
+      {!phone && <div className="routing-notice" role="status">Nenhum atendente disponível no momento. Tente novamente mais tarde.</div>}
       {/* Background ambient lighting */}
       <div className="bio-glow-1" aria-hidden="true" />
       <div className="bio-glow-2" aria-hidden="true" />
@@ -346,7 +308,7 @@ export default function App() {
               rel="noopener noreferrer"
               className="bio-whatsapp-text-link"
             >
-              WhatsApp: (11) 96558-9793
+              {contactLabel}
             </a>
           </div>
 
@@ -382,7 +344,7 @@ export default function App() {
             <h3>Responsável e contato</h3>
             <p>
               CNPJ 54.914.613/0001-63, Rua Daniel Cerri, 1047, Slj 1, Jardim Paraná, São Paulo - SP, CEP 02876-170.
-              Para questões sobre privacidade e dados, entre em contato pelo WhatsApp (11) 96558-9793.
+              Para questões sobre privacidade e dados, entre em contato pelo canal de WhatsApp disponível nesta página.
             </p>
 
             <h3>Uso deste site</h3>
