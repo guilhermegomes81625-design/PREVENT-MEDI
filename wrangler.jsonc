@@ -1,0 +1,10 @@
+{
+  "name": "prevent-medi-auto",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-19",
+  "d1_databases": [{
+    "binding": "PANEL_DB",
+    "database_name": "prevent-medi-atendentes",
+    "database_id": "25e92946-83e1-4c62-b1df-aaf7e7f9c32b"
+  }]
+}
