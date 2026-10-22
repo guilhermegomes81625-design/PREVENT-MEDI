@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import type React from 'react';
 export function useWhatsAppRouting() {
-  const [phone, setPhone] = useState<string | null>('5511966604328');
+  const [phone, setPhone] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem('pm_primary_phone') || '5511965589793';
+    } catch {
+      return '5511965589793';
+    }
+  });
   const [routingNotice, setNotice] = useState('');
   const busy = useRef(false);
   useEffect(() => {
@@ -11,13 +17,33 @@ export function useWhatsAppRouting() {
         const response = await fetch('/api/availability', { cache: 'no-store' });
         if (!response.ok) throw new Error();
         const data = await response.json();
-        if (alive) setPhone(data.phone);
-      } catch { /* Clicks still consult the server and never use an offline fallback. */ }
+        if (alive && data.phone) {
+          setPhone(data.phone);
+          try { localStorage.setItem('pm_primary_phone', data.phone); } catch {}
+        }
+      } catch {
+        try {
+          const cached = localStorage.getItem('pm_primary_phone');
+          if (cached && alive) setPhone(cached);
+        } catch {}
+      }
     };
-    void refresh(); const timer = setInterval(refresh, 15000);
+    void refresh();
+    const timer = setInterval(refresh, 5000);
     const visible = () => { if (!document.hidden) void refresh(); };
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'pm_primary_phone' && e.newValue && alive) {
+        setPhone(e.newValue);
+      }
+    };
+    window.addEventListener('storage', onStorage);
     document.addEventListener('visibilitychange', visible);
-    return () => { alive = false; clearInterval(timer); document.removeEventListener('visibilitychange', visible); };
+    return () => {
+      alive = false;
+      clearInterval(timer);
+      window.removeEventListener('storage', onStorage);
+      document.removeEventListener('visibilitychange', visible);
+    };
   }, []);
   useEffect(() => { if (!routingNotice) return; const timer = setTimeout(() => setNotice(''), 7000); return () => clearTimeout(timer); }, [routingNotice]);
   const buildWhatsAppUrl = (message: string) => phone ? `https://wa.me/${phone}?text=${encodeURIComponent(message)}` : undefined;

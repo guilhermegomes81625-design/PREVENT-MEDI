@@ -806,10 +806,209 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
 }
 .central-home .bio-glow-1, .central-home .bio-glow-2 { display: none; }
-.central-home .bio-container { max-width: 540px; gap: 24px; }
+.central-home .bio-container { max-width: 540px; gap: 20px; }
 .central-intro { text-align: center; width: 100%; margin-bottom: 10px; }
 .central-intro h1 { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; font-size: 12px; line-height: 1.3; font-weight: 600; border: 1px solid #b9ddeb; background: #e5f4fa; border-radius: 999px; color: #087eaa; }
 .central-intro p { max-width: 390px; margin: 17px auto 0; font-size: 14px; line-height: 1.65; color: #65747e; }
+
+/* Attendant Header on Central Home */
+.central-attendant-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 22px 20px 20px;
+  background: #ffffff;
+  border: 1px solid #e0e7eb;
+  border-radius: 20px;
+  box-shadow: 0 4px 18px -2px rgba(16, 43, 58, 0.05);
+}
+
+.central-attendant-avatar-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.central-attendant-avatar-ring {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #0085bc 0%, #005a87 100%);
+  box-shadow: 0 4px 14px rgba(0, 133, 188, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.central-attendant-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #ffffff;
+  display: block;
+}
+
+.central-attendant-online-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  background: #25d366;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.central-attendant-pulse-ring {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #25d366;
+  animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  z-index: 1;
+}
+
+.central-attendant-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.central-attendant-badge-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.central-attendant-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #087eaa;
+  background: #e5f4fa;
+  border: 1px solid #b9ddeb;
+  border-radius: 999px;
+  letter-spacing: 0.1px;
+}
+
+.central-attendant-info h1 {
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #172b3a;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.central-attendant-info p {
+  max-width: 440px;
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #65747e;
+}
+
+/* Attendant Speech Bubble on Central Home */
+.central-speech-bubble {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: #f4f9fd;
+  border: 1px solid #cbe4f2;
+  border-radius: 16px;
+  padding: 13px 15px;
+  text-align: left;
+  margin-top: 4px;
+  box-shadow: 0 3px 10px rgba(0, 133, 188, 0.05);
+}
+
+.central-speech-pointer {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: #f4f9fd;
+  border-top: 1px solid #cbe4f2;
+  border-left: 1px solid #cbe4f2;
+}
+
+.central-speech-typing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 2px;
+}
+
+.central-typing-text {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #087eaa;
+}
+
+.central-speech-greeting {
+  font-size: 14px;
+  font-weight: 700;
+  color: #087eaa;
+  margin-bottom: 4px;
+}
+
+.central-speech-text {
+  font-size: 12.8px;
+  line-height: 1.55;
+  color: #2c4454;
+  margin: 0;
+}
+
+.central-speech-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #7a92a3;
+}
+
+.central-speech-ticks {
+  color: #0085bc;
+}
+
+.bio-company-hours {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #087eaa;
+  background: #eef7fb;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d4ebf5;
+  text-align: center;
+}
+
+.bio-company-clock {
+  flex-shrink: 0;
+  color: #087eaa;
+}
+
 .central-options { display: flex; flex-direction: column; gap: 12px; width: 100%; }
 .central-option { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 78px; padding: 16px; border: 1px solid #e0e7eb; border-radius: 18px; background: #fff; color: #172b3a; text-decoration: none; box-shadow: 0 2px 2px #102b3a0d; transition: border-color 150ms, box-shadow 150ms; }
 .central-option:hover { border-color: #87c9e4; box-shadow: 0 4px 12px #0085bc14; }
@@ -840,8 +1039,12 @@ body {
 .central-home .bio-privacy-trigger { color: #087eaa; }
 .central-option:focus-visible, .central-bottom-cta:focus-visible { outline: 3px solid #0085bc; outline-offset: 4px; }
 @media (max-width: 480px) {
-  .central-home { padding: 30px 16px; }
-  .central-home .bio-container { gap: 20px; }
+  .central-home { padding: 24px 14px 36px; }
+  .central-home .bio-container { gap: 16px; }
+  .central-attendant-card { padding: 18px 14px 16px; gap: 12px; border-radius: 18px; }
+  .central-attendant-avatar-ring { width: 68px; height: 68px; }
+  .central-attendant-info h1 { font-size: 17px; }
+  .central-attendant-info p { font-size: 12.5px; }
   .central-intro p { font-size: 13px; }
   .central-option { padding: 14px 12px; gap: 11px; }
   .central-option-title { font-size: 13px; gap: 6px; }
@@ -850,3 +1053,4 @@ body {
   .central-home .bio-faq-card { padding: 16px; }
   .central-home .bio-faq-question { padding: 12px; font-size: 12px; }
 }
+
