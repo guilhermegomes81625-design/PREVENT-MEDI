@@ -607,25 +607,34 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #0d7342;
+  color: #ffffff;
   font-weight: 700;
+  font-size: 11.5px;
   text-decoration: none;
-  background: rgba(37, 211, 102, 0.12);
+  background: #0085bc;
   padding: 4px 10px;
   border-radius: 8px;
-  border: 1px solid rgba(18, 140, 82, 0.22);
+  border: 1px solid #0075a6;
+  box-shadow: 0 2px 6px rgba(0, 133, 188, 0.22);
   transition: all 0.15s ease;
 }
 
 .bio-whatsapp-text-link:hover {
-  background: rgba(37, 211, 102, 0.22);
-  color: #08522e;
+  background: #0075a6;
+  color: #ffffff;
   text-decoration: none;
 }
 
 .bio-whatsapp-link-icon {
-  color: #128c52;
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  min-height: 14px !important;
+  max-width: 14px !important;
+  max-height: 14px !important;
+  color: #ffffff;
   flex-shrink: 0;
+  display: inline-block;
 }
 
 .bio-dot-sep {
@@ -1060,9 +1069,37 @@ body {
 .central-home .bio-faq-item { background: #f9fcfd; border: 1px solid #e5edf0; border-radius: 14px; }
 .central-home .bio-faq-chevron { width: 16px; height: 16px; }
 .central-home .bio-faq-list { gap: 8px; }
-.central-bottom-cta { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; min-height: 56px; padding: 16px; background: #0085bc; color: #fff; text-decoration: none; font-size: 14px; font-weight: 700; border-radius: 18px; box-shadow: 0 5px 12px #0085bc20; }
-.central-bottom-cta:hover { background: #0075a6; }
-.central-whatsapp-icon { width: 21px; height: 21px; flex: 0 0 21px; }
+.central-bottom-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 56px;
+  padding: 16px;
+  background: #0085bc;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 18px;
+  box-shadow: 0 5px 12px rgba(0, 133, 188, 0.2);
+  transition: background 150ms ease, box-shadow 150ms ease;
+}
+.central-bottom-cta:hover {
+  background: #0075a6;
+}
+.central-whatsapp-icon {
+  width: 21px !important;
+  height: 21px !important;
+  min-width: 21px !important;
+  min-height: 21px !important;
+  max-width: 21px !important;
+  max-height: 21px !important;
+  flex: 0 0 21px;
+  color: #ffffff;
+  display: inline-block;
+}
 .central-home .bio-footer { padding-top: 18px; gap: 18px; }
 .central-home .bio-company-box { background: transparent; border: none; padding: 0; font-size: 12px; }
 .central-home .bio-company-icon { width: 16px; height: 16px; }

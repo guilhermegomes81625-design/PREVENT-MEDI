@@ -85,7 +85,8 @@ export default function Panel() {
             return;
           } catch {}
         }
-        const initialPhone = localStorage.getItem('pm_primary_phone') || '5511965589793';
+        let initialPhone = localStorage.getItem('pm_primary_phone') || '5511966604328';
+        if (initialPhone === '5511965589793') initialPhone = '5511966604328';
         accept({
           attendants: [{ id: '1', name: 'Atendimento Principal', phone: initialPhone, active: true }],
           version: 1,
@@ -148,7 +149,8 @@ export default function Panel() {
       // Allow login in dev fallback mode if API is unavailable
       setAuth(true);
       setPassword('');
-      const initialPhone = localStorage.getItem('pm_primary_phone') || '5511965589793';
+      let initialPhone = localStorage.getItem('pm_primary_phone') || '5511966604328';
+      if (initialPhone === '5511965589793') initialPhone = '5511966604328';
       if (rows.length === 0) {
         setRows([{ id: '1', name: 'Atendimento Principal', phone: initialPhone, active: true }]);
       }
@@ -193,7 +195,7 @@ export default function Panel() {
     const cleaned = phone.replace(/\D/g, '');
     const normalized = cleaned.length === 11 ? '55' + cleaned : cleaned;
     if (!/^55[1-9]{2}9\d{8}$/.test(normalized)) {
-      setError('Informe 55 + DDD + celular, por exemplo: 5511965589793.');
+      setError('Informe 55 + DDD + celular, por exemplo: 5511966604328.');
       return;
     }
     if (rows.some(row => row.phone === normalized)) {
@@ -488,7 +490,7 @@ export default function Panel() {
                 WhatsApp com DDD (55 + DDD + Celular)
                 <input
                   id="attendant-phone"
-                  placeholder="5511965589793"
+                  placeholder="5511966604328"
                   inputMode="tel"
                   value={phone}
                   required

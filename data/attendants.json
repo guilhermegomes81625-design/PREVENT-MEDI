@@ -1,0 +1,12 @@
+{
+  "attendants": [
+    {
+      "id": "1",
+      "name": "Atendimento Principal",
+      "phone": "5511966604328",
+      "active": true
+    }
+  ],
+  "version": 1,
+  "updatedAt": "2026-10-22T20:00:00.000Z"
+}
