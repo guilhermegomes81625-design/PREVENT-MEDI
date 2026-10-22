@@ -1,5 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import type React from 'react';
+export function formatPhoneNumber(p: string | null): string {
+  if (!p) return 'Carregando...';
+  const clean = p.replace(/\D/g, '');
+  if (clean.length === 13 && clean.startsWith('55')) {
+    return `+55 (${clean.slice(2, 4)}) ${clean.slice(4, 9)}-${clean.slice(9)}`;
+  }
+  if (clean.length === 11) {
+    return `(${clean.slice(0, 2)}) ${clean.slice(2, 7)}-${clean.slice(7)}`;
+  }
+  return p;
+}
+
 export function useWhatsAppRouting() {
   const [phone, setPhone] = useState<string | null>(() => {
     try {
@@ -10,6 +22,7 @@ export function useWhatsAppRouting() {
   });
   const [routingNotice, setNotice] = useState('');
   const busy = useRef(false);
+
   useEffect(() => {
     let alive = true;
     const refresh = async () => {
@@ -24,30 +37,56 @@ export function useWhatsAppRouting() {
       } catch {
         try {
           const cached = localStorage.getItem('pm_primary_phone');
-          if (cached && alive) setPhone(cached);
+          if (cached && alive && cached !== phone) setPhone(cached);
         } catch {}
       }
     };
+
     void refresh();
-    const timer = setInterval(refresh, 5000);
+    const timer = setInterval(refresh, 3000);
     const visible = () => { if (!document.hidden) void refresh(); };
+
     const onStorage = (e: StorageEvent) => {
       if (e.key === 'pm_primary_phone' && e.newValue && alive) {
         setPhone(e.newValue);
       }
     };
+
+    const onCustomUpdate = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (detail && alive) {
+        setPhone(detail);
+      } else {
+        const cached = localStorage.getItem('pm_primary_phone');
+        if (cached && alive) setPhone(cached);
+      }
+    };
+
     window.addEventListener('storage', onStorage);
+    window.addEventListener('pm_phone_updated', onCustomUpdate);
     document.addEventListener('visibilitychange', visible);
+    window.addEventListener('focus', visible);
+
     return () => {
       alive = false;
       clearInterval(timer);
       window.removeEventListener('storage', onStorage);
+      window.removeEventListener('pm_phone_updated', onCustomUpdate);
       document.removeEventListener('visibilitychange', visible);
+      window.removeEventListener('focus', visible);
     };
-  }, []);
-  useEffect(() => { if (!routingNotice) return; const timer = setTimeout(() => setNotice(''), 7000); return () => clearTimeout(timer); }, [routingNotice]);
+  }, [phone]);
+
+  useEffect(() => {
+    if (!routingNotice) return;
+    const timer = setTimeout(() => setNotice(''), 7000);
+    return () => clearTimeout(timer);
+  }, [routingNotice]);
+
+  const formattedPhone = formatPhoneNumber(phone);
   const buildWhatsAppUrl = (message: string) => phone ? `https://wa.me/${phone}?text=${encodeURIComponent(message)}` : undefined;
-  const contactLabel = phone ? `WhatsApp: +${phone.slice(0, 2)} (${phone.slice(2, 4)}) ${phone.slice(4, 9)}-${phone.slice(9)}` : 'Atendimento temporariamente indisponível';
+  const contactLabel = phone ? `WhatsApp: ${formattedPhone}` : 'Atendimento temporariamente indisponível';
+
   async function routeWhatsApp(event: React.MouseEvent<HTMLDivElement>) {
     const target = event.target instanceof Element ? event.target : null;
     const link = target?.closest<HTMLAnchorElement>('a[href]');
@@ -56,7 +95,6 @@ export function useWhatsAppRouting() {
     event.preventDefault();
     if (busy.current) return;
     busy.current = true;
-    // Preserve the original wa.me href throughout event bubbling so GTM sees one real link click.
     const message = new URL(link.href).searchParams.get('text') || '';
     const useNewTab = event.button === 1 || event.ctrlKey || event.metaKey || event.shiftKey || link.target === '_blank';
     const destination = useNewTab ? window.open('about:blank', '_blank') : null;
@@ -69,8 +107,13 @@ export function useWhatsAppRouting() {
       const href = `https://wa.me/${data.phone}?text=${encodeURIComponent(message)}`;
       if (destination) destination.location.replace(href); else window.location.assign(href);
       setNotice('');
-    } catch (error: any) { destination?.close(); setNotice(error.message || 'Não foi possível conectar. Tente novamente.'); }
-    finally { busy.current = false; }
+    } catch (error: any) {
+      destination?.close();
+      setNotice(error.message || 'Não foi possível conectar. Tente novamente.');
+    } finally {
+      busy.current = false;
+    }
   }
-  return { phone, buildWhatsAppUrl, contactLabel, routeWhatsApp, routingNotice };
+
+  return { phone, formattedPhone, buildWhatsAppUrl, contactLabel, routeWhatsApp, routingNotice };
 }

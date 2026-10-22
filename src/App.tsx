@@ -39,7 +39,7 @@ function getGreeting(): string {
 }
 
 export default function App() {
-  const { phone, buildWhatsAppUrl, contactLabel, routeWhatsApp, routingNotice } = useWhatsAppRouting();
+  const { phone, formattedPhone, buildWhatsAppUrl, contactLabel, routeWhatsApp, routingNotice } = useWhatsAppRouting();
   const [currentPath, setCurrentPath] = useState<string>(
     typeof window !== 'undefined' ? window.location.pathname.toLowerCase() : '/'
   );
@@ -396,6 +396,10 @@ export default function App() {
               <br />
               Rua Daniel Cerri, 1047 - Slj 1 - Jardim Paraná - São Paulo - SP - CEP: 02876-170
             </p>
+            <div className="bio-company-phone">
+              <Phone className="w-3.5 h-3.5 bio-company-icon" />
+              <span>Telefone / WhatsApp Oficial: <strong>{formattedPhone}</strong></span>
+            </div>
             <div className="bio-company-hours">
               <Clock className="w-3.5 h-3.5 bio-company-clock" />
               <span>Horário Comercial: Segunda a Sexta das 08h às 18h | Sábado das 08h às 13h</span>
@@ -440,8 +444,10 @@ export default function App() {
               target="_blank"
               rel="noopener noreferrer"
               className="bio-whatsapp-text-link"
+              title="Falar no WhatsApp com o número oficial de atendimento"
             >
-              {contactLabel}
+              <WhatsAppIcon className="w-3.5 h-3.5 bio-whatsapp-link-icon" />
+              <span>{contactLabel}</span>
             </a>
           </div>
 
@@ -546,7 +552,7 @@ export default function App() {
 
                 <h3>Identificação do Prestador</h3>
                 <p>
-                  Canal de Atendimento ao Cliente, operado sob o CNPJ 54.914.613/0001-63, localizado na Rua Daniel Cerri, 1047, Slj 1, Jardim Paraná, São Paulo - SP, CEP 02876-170.
+                  Canal de Atendimento ao Cliente, operado sob o CNPJ 54.914.613/0001-63, localizado na Rua Daniel Cerri, 1047, Slj 1, Jardim Paraná, São Paulo - SP, CEP 02876-170. Telefone e WhatsApp oficial: <strong>{formattedPhone}</strong>.
                 </p>
 
                 <h3>Condições de Acesso</h3>
@@ -568,7 +574,7 @@ export default function App() {
                 <h3>Responsável e contato</h3>
                 <p>
                   CNPJ 54.914.613/0001-63, Rua Daniel Cerri, 1047, Slj 1, Jardim Paraná, São Paulo - SP, CEP 02876-170.
-                  Para questões sobre privacidade e dados, entre em contato pelo canal de WhatsApp disponível nesta página.
+                  Para questões sobre privacidade e dados, entre em contato pelo telefone e canal oficial de WhatsApp (<strong>{formattedPhone}</strong>) disponível nesta página.
                 </p>
 
                 <h3>Uso deste site</h3>
