@@ -4,9 +4,16 @@
       "id": "1",
       "name": "Atendimento Principal",
       "phone": "5511966604328",
-      "active": true
+      "active": true,
+      "clicks": 0,
+      "todayClicks": 0,
+      "lastClickDate": null,
+      "lastRoutedAt": null
     }
   ],
-  "version": 1,
-  "updatedAt": "2026-10-22T20:00:00.000Z"
+  "cursor": 0,
+  "version": 5,
+  "updatedAt": "2026-11-19T20:54:00.601Z",
+  "totalClicks": 0,
+  "lastResetAt": "2026-11-19T20:54:00.601Z"
 }
