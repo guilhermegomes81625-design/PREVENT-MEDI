@@ -14,7 +14,7 @@ const DATA_FILE = path.join(DATA_DIR, 'attendants.json');
 const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json');
 const DIST_DIR = path.resolve(__dirname, 'dist');
 
-const PANEL_PASSWORD = process.env.PANEL_PASSWORD || 'Link12345678@';
+const PANEL_PASSWORD = process.env.PANEL_PASSWORD || '117711';
 const COOKIE_NAME = 'pm_panel_session';
 const SESSION_TTL_MS = 8 * 60 * 60 * 1000; // 8 hours
 const BR_PHONE_REGEX = /^55[1-9]{2}(?:9\d{8}|[2-5]\d{7})$/;
